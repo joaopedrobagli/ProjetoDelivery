@@ -9,8 +9,7 @@
 **Um sistema completo e moderno para gerenciamento de manutenções**
 
 [Características](#-características-principais) • 
-[Instalação](#-instalação-rápida) • 
-[Documentação](#-documentação)
+
 
 </div>
 
@@ -32,11 +31,46 @@ O **Sistema de Gerenciamento de Manutenção** é uma solução completa desenvo
 - **Navegação fluida** e intuitiva
 - **Tema escuro/claro** opcional
 
-### ⚡ Performance
-- **Carregamento rápido** otimizado
-- **Atualizações em tempo real**
-- **Cache inteligente** de dados
-- **Otimização** para dispositivos móveis
 
-## 🏗️ Arquitetura do Sistema
+## 🛠️ Stack Tecnológica
+
+### Backend
+<div align="center">
+
+| Tecnologia | Função | Versão |
+|------------|--------|---------|
+| <img src="https://skillicons.dev/icons?i=nodejs" width="40" title="Node.js"/> | Runtime JavaScript | 18+ |
+| <img src="https://skillicons.dev/icons?i=express" width="40" title="Express.js"/> | Framework Web | 4.18+ |
+| <img src="https://skillicons.dev/icons?i=mysql" width="40" title="MySQL"/> | Banco de Dados | 8.0+ |
+| <img src="https://skillicons.dev/icons?i=jwt" width="40" title="JWT"/> | Autenticação | 9.0+ |
+| <img src="https://skillicons.dev/icons?i=bootstrap" width="40" title="Bcrypt"/> | Criptografia | 5.1+ |
+
+</div>
+
+### Frontend
+<div align="center">
+
+| Tecnologia | Função | Versão |
+|------------|--------|---------|
+| <img src="https://skillicons.dev/icons?i=html" width="40" title="HTML5"/> | Estrutura | 5 |
+| <img src="https://skillicons.dev/icons?i=css" width="40" title="CSS3"/> | Estilização | 3 |
+| <img src="https://skillicons.dev/icons?i=javascript" width="40" title="JavaScript"/> | Interatividade | ES6+ |
+| <img src="https://skillicons.dev/icons?i=bootstrap" width="40" title="Bootstrap"/> | UI Framework | 5.3+ |
+| <img src="https://skillicons.dev/icons?i=chartjs" width="40" title="Chart.js"/> | Gráficos | 4.0+ |
+
+</div>
+
+## 🚀 Instalação Rápida
+
+### Pré-requisitos
+- Node.js 18 ou superior
+- MySQL 8.0 ou superior
+- Navegador moderno
+
+### 📥 1. Clone o Repositório
+```bash
+git clone https://github.com/seu-usuario/sistema-manutencao.git
+cd sistema-manutencao
+
+
 
