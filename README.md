@@ -42,7 +42,6 @@ O **Sistema de Gerenciamento de Manutenção** é uma solução completa desenvo
 | <img src="https://skillicons.dev/icons?i=nodejs" width="40" title="Node.js"/> | Runtime JavaScript | 18+ |
 | <img src="https://skillicons.dev/icons?i=express" width="40" title="Express.js"/> | Framework Web | 4.18+ |
 | <img src="https://skillicons.dev/icons?i=mysql" width="40" title="MySQL"/> | Banco de Dados | 8.0+ |
-| <img src="https://skillicons.dev/icons?i=jwt" width="40" title="JWT"/> | Autenticação | 9.0+ |
 | <img src="https://skillicons.dev/icons?i=bootstrap" width="40" title="Bcrypt"/> | Criptografia | 5.1+ |
 
 </div>
@@ -60,17 +59,8 @@ O **Sistema de Gerenciamento de Manutenção** é uma solução completa desenvo
 
 </div>
 
-## 🚀 Instalação Rápida
 
-### Pré-requisitos
-- Node.js 18 ou superior
-- MySQL 8.0 ou superior
-- Navegador moderno
 
-### 📥 1. Clone o Repositório
-```bash
-git clone https://github.com/seu-usuario/sistema-manutencao.git
-cd sistema-manutencao
 
 
 
