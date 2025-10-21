@@ -1,2 +1,3 @@
-Sistema de Delivery
-Este é um sistema completo para gerenciamento de manutenção, desenvolvido com uma arquitetura moderna de frontend e backend separados.
+🛠️ Sistema de Gerenciamento de Manutenção
+
+Um sistema completo e moderno para gerenciamento de manutenções, desenvolvido com arquitetura de frontend e backend separados.
