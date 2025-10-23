@@ -1,10 +1,10 @@
-// Configuração da API
+
 let API_URL = 'http://localhost:3000/api';
 let currentUser = null;
 let token = localStorage.getItem('token');
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-// Função para descobrir a porta do servidor
+
 async function discoverServerPort() {
     const ports = [3000, 3001, 3002, 8080, 8081, 9999, 4000, 5000, 5001];
     
@@ -23,7 +23,7 @@ async function discoverServerPort() {
     return 3000; 
 }
 
-// Inicialização
+
 document.addEventListener('DOMContentLoaded', async function() {
     const port = await discoverServerPort();
     API_URL = `http://localhost:${port}/api`;
@@ -32,13 +32,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (token) {
         checkAuth();
     }
-    
-    // Event Listeners
     document.getElementById('loginForm').addEventListener('submit', login);
     document.getElementById('registerForm').addEventListener('submit', register);
 });
 
-// Funções de Navegação
 function showLogin() {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('registerScreen').style.display = 'none';
@@ -57,7 +54,6 @@ function showRegister() {
     document.getElementById('userInfo').style.display = 'none';
 }
 
-// Autenticação
 async function login(e) {
     e.preventDefault();
     
@@ -145,7 +141,6 @@ async function checkAuth() {
     }
 }
 
-// Dashboard
 function showDashboard() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('registerScreen').style.display = 'none';
@@ -197,8 +192,6 @@ function showDashboard() {
     }
 }
 
-// ==================== FUNÇÕES DO CLIENTE ====================
-
 async function loadEstabelecimentos() {
     try {
         const response = await fetch(`${API_URL}/estabelecimentos`);
@@ -231,7 +224,6 @@ async function loadEstabelecimentos() {
     }
 }
 
-// Função para cliente ver cardápio
 function verCardapio(estabId) {
     document.getElementById('clientDashboard').innerHTML = '';
     
@@ -280,13 +272,9 @@ function verCardapio(estabId) {
     atualizarCarrinho();
 }
 
-// ==================== SISTEMA DE PEDIDOS - CLIENTE ====================
-
-// Mostrar histórico de pedidos do cliente - FUNÇÃO CORRIGIDA
 function mostrarMeusPedidos() {
     console.log('📦 Mostrar Meus Pedidos clicado');
     
-    // Primeiro, garantir que estamos no dashboard do cliente
     document.getElementById('clientDashboard').innerHTML = '';
     
     const pedidosHTML = `
@@ -311,11 +299,9 @@ function mostrarMeusPedidos() {
     document.getElementById('clientDashboard').innerHTML = pedidosHTML;
     document.getElementById('clientDashboard').style.display = 'block';
     
-    // Carregar os pedidos
     carregarMeusPedidos();
 }
 
-// Carregar pedidos do cliente - FUNÇÃO CORRIGIDA
 async function carregarMeusPedidos() {
     try {
         console.log('🔍 Buscando pedidos do cliente...');
@@ -397,7 +383,6 @@ async function carregarMeusPedidos() {
     }
 }
 
-// Voltar para lista de estabelecimentos
 function voltarParaEstabelecimentos() {
     document.getElementById('clientDashboard').innerHTML = `
         <div class="container-fluid">
@@ -511,8 +496,6 @@ async function carregarCardapioCliente(estabId) {
         `;
     }
 }
-
-// Adicionar item ao carrinho
 function adicionarAoCarrinho(produtoId, produtoNome, produtoPreco) {
     console.log('Adicionando ao carrinho:', produtoId, produtoNome, produtoPreco);
     
@@ -531,8 +514,6 @@ function adicionarAoCarrinho(produtoId, produtoNome, produtoPreco) {
     
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     atualizarCarrinho();
-    
-    // Feedback visual
     const btn = event.target;
     const originalText = btn.innerHTML;
     btn.innerHTML = '✓ Adicionado!';
@@ -548,7 +529,6 @@ function adicionarAoCarrinho(produtoId, produtoNome, produtoPreco) {
     }, 1500);
 }
 
-// Atualizar visualização do carrinho
 function atualizarCarrinho() {
     const container = document.getElementById('itensCarrinho');
     const totalContainer = document.getElementById('totalCarrinho');
@@ -608,7 +588,6 @@ function atualizarCarrinho() {
     }
 }
 
-// Alterar quantidade do item no carrinho
 function alterarQuantidade(index, mudanca) {
     if (index < 0 || index >= carrinho.length) return;
     
@@ -632,9 +611,6 @@ function removerDoCarrinho(index) {
     atualizarCarrinho();
 }
 
-
-
-    // Finalizar pedido com MODAL BONITO
 function finalizarPedido(estabId) {
     if (carrinho.length === 0) {
         alert('Carrinho vazio!');
@@ -643,7 +619,6 @@ function finalizarPedido(estabId) {
 
     const total = carrinho.reduce((sum, item) => sum + (item.produtoPreco * item.quantidade), 0);
     
-    // Criar modal bonito
     const modalHTML = `
         <div class="modal fade" id="modalFinalizarPedido" tabindex="-1">
             <div class="modal-dialog modal-lg">
@@ -703,28 +678,20 @@ function finalizarPedido(estabId) {
             </div>
         </div>
     `;
-
-    // Adicionar modal ao DOM
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-    
-    // Mostrar modal
     const modal = new bootstrap.Modal(document.getElementById('modalFinalizarPedido'));
     modal.show();
-    
-    // Remover modal do DOM quando fechar
+
     document.getElementById('modalFinalizarPedido').addEventListener('hidden.bs.modal', function () {
         this.remove();
     });
 }
-
-
 
 async function confirmarPedido(estabId) {
     const enderecoEntrega = document.getElementById('enderecoEntrega').value;
     const observacao = document.getElementById('observacaoPedido').value;
 
     if (!enderecoEntrega.trim()) {
-        // Alerta bonito em vez do alert() feio
         mostrarAlerta('❌ Por favor, informe o endereço de entrega!', 'danger');
         document.getElementById('enderecoEntrega').focus();
         return;
@@ -743,8 +710,6 @@ async function confirmarPedido(estabId) {
             endereco_entrega: enderecoEntrega,
             observacao: observacao
         };
-
-        // Mostrar loading no botão
         const btnConfirmar = document.querySelector('#modalFinalizarPedido .btn-success');
         const originalText = btnConfirmar.innerHTML;
         btnConfirmar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processando...';
@@ -761,35 +726,32 @@ async function confirmarPedido(estabId) {
 
         const data = await response.json();
 
-        // Restaurar botão
+
         btnConfirmar.innerHTML = originalText;
         btnConfirmar.disabled = false;
 
         if (response.ok) {
-            // Fechar modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalFinalizarPedido'));
             modal.hide();
             
-            // Mostrar mensagem de sucesso BONITA
             setTimeout(() => {
                 mostrarAlertaSucesso(data.pedidoId, data.total);
             }, 300);
-            
-            // Limpar carrinho
+     
             carrinho = [];
             localStorage.removeItem('carrinho');
             atualizarCarrinho();
             
-            // Voltar para estabelecimentos
+       
             setTimeout(() => {
                 voltarParaEstabelecimentos();
-            }, 3000); // Dar tempo para ver a mensagem de sucesso
+            }, 3000); 
             
         } else {
             mostrarAlerta('❌ Erro ao fazer pedido: ' + data.error, 'danger');
         }
     } catch (error) {
-        // Restaurar botão em caso de erro
+    
         const btnConfirmar = document.querySelector('#modalFinalizarPedido .btn-success');
         btnConfirmar.innerHTML = '✅ Confirmar Pedido';
         btnConfirmar.disabled = false;
@@ -798,7 +760,6 @@ async function confirmarPedido(estabId) {
     }
 }
 
-// Função para mostrar alerta bonito
 function mostrarAlerta(mensagem, tipo = 'info') {
     const alertHTML = `
         <div class="alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999; min-width: 300px;">
@@ -811,13 +772,11 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         </div>
     `;
     
-    // Remover alertas anteriores
+
     const alertasAntigos = document.querySelectorAll('.alert.position-fixed');
     alertasAntigos.forEach(alerta => alerta.remove());
     
     document.body.insertAdjacentHTML('beforeend', alertHTML);
-    
-    // Remover alerta automaticamente após 5 segundos
     setTimeout(() => {
         const alertElement = document.querySelector('.alert.position-fixed');
         if (alertElement) {
@@ -826,7 +785,6 @@ function mostrarAlerta(mensagem, tipo = 'info') {
     }, 5000);
 }
 
-// Função para mostrar sucesso bonito
 function mostrarAlertaSucesso(pedidoId, total) {
     const alertHTML = `
         <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999; min-width: 400px;">
@@ -842,13 +800,11 @@ function mostrarAlertaSucesso(pedidoId, total) {
         </div>
     `;
     
-    // Remover alertas anteriores
+
     const alertasAntigos = document.querySelectorAll('.alert.position-fixed');
     alertasAntigos.forEach(alerta => alerta.remove());
     
     document.body.insertAdjacentHTML('beforeend', alertHTML);
-    
-    // Remover alerta automaticamente após 5 segundos
     setTimeout(() => {
         const alertElement = document.querySelector('.alert.position-fixed');
         if (alertElement) {
@@ -1083,7 +1039,6 @@ async function cadastrarEstabelecimento() {
     }
 }
 
-// Função para gerenciar cardápio (Empresa)
 function gerenciarCardapio(estabId) {
     const container = document.getElementById('meusEstabelecimentos');
     container.innerHTML = `
@@ -1110,7 +1065,7 @@ function gerenciarCardapio(estabId) {
     loadProdutos(estabId);
 }
 
-// Carregar produtos do estabelecimento
+
 async function loadProdutos(estabId) {
     try {
         const response = await fetch(`${API_URL}/estabelecimentos/${estabId}/produtos`);
@@ -1187,7 +1142,7 @@ async function loadProdutos(estabId) {
     }
 }
 
-// Mostrar formulário para adicionar produto
+
 function showAdicionarProduto(estabId) {
     const container = document.getElementById(`listaProdutos-${estabId}`);
     container.innerHTML = `
@@ -1233,7 +1188,7 @@ function showAdicionarProduto(estabId) {
     `;
 }
 
-// Adicionar produto
+
 async function adicionarProduto(estabId) {
     const produtoData = {
         nome: document.getElementById(`produtoNome-${estabId}`).value,
@@ -1265,9 +1220,7 @@ async function adicionarProduto(estabId) {
     }
 }
 
-// ==================== SISTEMA DE PEDIDOS - EMPRESA ====================
 
-// Ver pedidos do estabelecimento (Empresa)
 function verPedidos(estabId) {
     const container = document.getElementById('meusEstabelecimentos');
     container.innerHTML = `
@@ -1289,7 +1242,6 @@ function verPedidos(estabId) {
     carregarPedidosEmpresa(estabId);
 }
 
-// Carregar pedidos para a empresa
 async function carregarPedidosEmpresa(estabId) {
     try {
         const response = await fetch(`${API_URL}/estabelecimentos/${estabId}/pedidos`, {
@@ -1366,7 +1318,6 @@ async function carregarPedidosEmpresa(estabId) {
     }
 }
 
-// Atualizar status do pedido (Empresa)
 async function atualizarStatusPedido(pedidoId, estabId) {
     const novoStatus = document.getElementById(`statusPedido-${pedidoId}`).value;
     
@@ -1383,13 +1334,12 @@ async function atualizarStatusPedido(pedidoId, estabId) {
         const data = await response.json();
 
         if (response.ok) {
-            // Atualizar a badge de status visualmente
+      
             const statusInfo = getStatusInfo(novoStatus);
             const badge = document.querySelector(`#statusPedido-${pedidoId}`).closest('.card').querySelector('.badge');
             badge.className = `badge ${statusInfo.class}`;
             badge.textContent = statusInfo.text;
             
-            // Feedback visual
             const select = document.getElementById(`statusPedido-${pedidoId}`);
             const originalColor = select.style.backgroundColor;
             select.style.backgroundColor = '#d4edda';
@@ -1399,7 +1349,6 @@ async function atualizarStatusPedido(pedidoId, estabId) {
             }, 1000);
         } else {
             alert('Erro ao atualizar status: ' + data.error);
-            // Reverter seleção
             carregarPedidosEmpresa(estabId);
         }
     } catch (error) {

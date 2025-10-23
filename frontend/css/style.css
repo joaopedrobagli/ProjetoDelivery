@@ -48,7 +48,7 @@ body {
     display: none !important;
 }
 
-/* Animações suaves */
+
 .fade-in {
     animation: fadeIn 0.5s ease-in;
 }
@@ -58,7 +58,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsividade melhorada */
+
 @media (max-width: 768px) {
     .hero-section {
         padding: 40px 0;

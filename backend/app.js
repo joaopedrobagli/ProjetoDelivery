@@ -13,17 +13,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const JWT_SECRET = 'delivery_secret_key_2024';
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Inicializar banco de dados
+
 const db = new sqlite3.Database('../database.db');
 
-// Criar tabelas
+
 db.serialize(() => {
-    // Tabela de usuários
+    
     db.run(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +38,7 @@ db.serialize(() => {
         )
     `);
 
-    // Tabela de estabelecimentos
+  
     db.run(`
         CREATE TABLE IF NOT EXISTS estabelecimentos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +56,7 @@ db.serialize(() => {
         )
     `);
 
-    // Tabela de produtos
+ 
     db.run(`
         CREATE TABLE IF NOT EXISTS produtos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,7 +70,7 @@ db.serialize(() => {
         )
     `);
 
-    // Tabela de pedidos
+  
     db.run(`
         CREATE TABLE IF NOT EXISTS pedidos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,7 +86,6 @@ db.serialize(() => {
         )
     `);
 
-    // Tabela de itens do pedido
     db.run(`
         CREATE TABLE IF NOT EXISTS itens_pedido (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -99,7 +98,7 @@ db.serialize(() => {
         )
     `);
 
-    // Criar admin padrão
+   
     db.get("SELECT id FROM usuarios WHERE tipo = 'admin'", (err, row) => {
         if (!row) {
             const hashedPassword = bcrypt.hashSync('admin123', 10);
@@ -118,7 +117,7 @@ db.serialize(() => {
     console.log('✅ Banco de dados inicializado');
 });
 
-// ==================== MIDDLEWARE DE AUTENTICAÇÃO ====================
+
 
 function authMiddleware(allowedTypes = []) {
     return (req, res, next) => {
@@ -143,14 +142,12 @@ function authMiddleware(allowedTypes = []) {
     };
 }
 
-// ==================== ROTAS PÚBLICAS ====================
 
-// Rota de teste
 app.get('/api/test', (req, res) => {
     res.json({ message: 'API funcionando!' });
 });
 
-// Cadastro de usuário
+
 app.post('/api/auth/register', (req, res) => {
     const { email, senha, tipo, nome, telefone, endereco } = req.body;
 
@@ -179,7 +176,7 @@ app.post('/api/auth/register', (req, res) => {
     });
 });
 
-// Login
+
 app.post('/api/auth/login', (req, res) => {
     const { email, senha } = req.body;
 
@@ -221,7 +218,7 @@ app.post('/api/auth/login', (req, res) => {
     );
 });
 
-// Listar estabelecimentos aprovados (público)
+
 app.get('/api/estabelecimentos', (req, res) => {
     db.all(
         `SELECT e.*, u.nome as empresa_nome 
@@ -238,7 +235,6 @@ app.get('/api/estabelecimentos', (req, res) => {
     );
 });
 
-// Listar produtos de um estabelecimento (público)
 app.get('/api/estabelecimentos/:id/produtos', (req, res) => {
     db.all(
         `SELECT * FROM produtos 
@@ -255,9 +251,6 @@ app.get('/api/estabelecimentos/:id/produtos', (req, res) => {
     );
 });
 
-// ==================== ROTAS DE ESTABELECIMENTOS ====================
-
-// Cadastrar estabelecimento (apenas empresas)
 app.post('/api/estabelecimentos', authMiddleware(['empresa']), (req, res) => {
     const { nome, descricao, categoria, endereco, telefone, cnpj } = req.body;
 
@@ -287,7 +280,7 @@ app.post('/api/estabelecimentos', authMiddleware(['empresa']), (req, res) => {
     );
 });
 
-// Listar estabelecimentos do usuário empresa
+
 app.get('/api/estabelecimentos/meus', authMiddleware(['empresa']), (req, res) => {
     db.all(
         `SELECT * FROM estabelecimentos WHERE empresa_id = ? ORDER BY data_criacao DESC`,
@@ -302,14 +295,10 @@ app.get('/api/estabelecimentos/meus', authMiddleware(['empresa']), (req, res) =>
     );
 });
 
-// ==================== ROTAS DE PRODUTOS ====================
-
-// Adicionar produto (apenas empresa dona do estabelecimento)
 app.post('/api/estabelecimentos/:id/produtos', authMiddleware(['empresa']), (req, res) => {
     const { nome, descricao, preco, categoria } = req.body;
     const estabelecimentoId = req.params.id;
 
-    // Verificar se a empresa é dona do estabelecimento
     db.get(
         `SELECT id FROM estabelecimentos 
          WHERE id = ? AND empresa_id = ?`,
