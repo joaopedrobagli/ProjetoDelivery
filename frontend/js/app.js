@@ -1535,7 +1535,7 @@ function getStatusInfo(status) {
     return statusMap[status] || { class: 'bg-secondary', text: status };
 }
 
-// Funções placeholder
+
 function editarProduto(produtoId, estabId) {
     alert(`Editar produto ${produtoId} - Em desenvolvimento`);
 }
